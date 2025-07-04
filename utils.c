@@ -6,45 +6,42 @@
 /*   By: sklaas <sklaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:52:22 by sklaas            #+#    #+#             */
-/*   Updated: 2025/07/03 02:55:45 by sklaas           ###   ########.fr       */
+/*   Updated: 2025/07/04 16:36:19 by sklaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	ft_atoi(const char *nptr)
+long	ft_atol(const char *str)
 {
-	int	sign;
-	int	res;
-	int	i;
+	int		i;
+	long	result;
+	int		sign;
 
-	sign = 1;
-	res = 0;
+	result = 0;
 	i = 0;
-	while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == 32)
+	sign = 1;
+	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == ' '))
 		i++;
-	if (nptr[i] == '+' || nptr[i] == '-')
+	if (str[i] == '-' || str[i] == '+')
 	{
-		if (nptr[i] == '-')
-			sign = (-1);
+		if (str[i] == '-')
+			sign *= -1;
 		i++;
 	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		res = (res * 10) + (nptr[i] - 48);
+		result = result * 10 + (str[i] - '0');
 		i++;
 	}
-	return (res * sign);
+	return (result * sign);
 }
 
-int	ft_isalpha(int c)
+int	ft_isdigit(int c)
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+	if (c >= 48 && c <= 57)
 	{
 		return (1);
 	}
-	else
-	{
-		return (0);
-	}
+	return (0);
 }
