@@ -6,7 +6,7 @@
 /*   By: sklaas <sklaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 00:30:18 by sklaas            #+#    #+#             */
-/*   Updated: 2025/07/07 04:34:06 by sklaas           ###   ########.fr       */
+/*   Updated: 2025/07/07 05:05:06 by sklaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_args(char **argv)
 			return (0);
 		i++;
 	}
-	if (ft_atol(argv[3]) < 1 || ft_atol(argv[1]) < 1)
+	if ((ft_atol(argv[3]) < 1) || (ft_atol(argv[1]) < 1))
 		return (0);
 	return (1);
 }

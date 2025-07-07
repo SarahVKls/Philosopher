@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sklaas <sklaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:55:24 by sklaas            #+#    #+#             */
-/*   Updated: 2025/07/07 04:27:46 by sklaas           ###   ########.fr       */
+/*   Updated: 2025/07/07 05:08:51 by sklaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,16 @@ int	main(int argc, char **argv)
 	t_data	*data;
 	t_philo	*philo;
 
+	if (argc < 5 || argc > 6)
+		return (0);
+	if (!check_args(argv))
+		return (printf("ERROR : invalid args\n"), -1);
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (1);
 	philo = malloc(sizeof(t_philo) * ft_atol(argv[1]));
 	if (!philo)
 		return (1);
-	if (argc < 5 || argc > 6)
-		return (0);
-	if (!check_args(argv))
-		return (printf("ERROR : invalid args\n"), -1);
 	init_all(data, philo, argv, argc);
 	data->start_time = get_time();
 	create_threads(data, philo);
