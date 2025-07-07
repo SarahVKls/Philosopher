@@ -3,7 +3,7 @@ NAME = philosophers
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -pthread
 
-SRCS = 	main.c\
+SRCS = 	philo.c\
 		utils.c\
 		routine.c\
 		monitoring.c\

@@ -6,7 +6,7 @@
 /*   By: sklaas <sklaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 00:30:18 by sklaas            #+#    #+#             */
-/*   Updated: 2025/07/07 00:34:22 by sklaas           ###   ########.fr       */
+/*   Updated: 2025/07/07 04:34:06 by sklaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	check_args(char **argv)
 	int	i;
 
 	i = 1;
+	if (ft_atol(argv[1]) > 200)
+		return (0);
 	while (argv[i])
 	{
 		if (!is_valid_arg(argv[i]))
