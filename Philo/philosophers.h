@@ -6,7 +6,7 @@
 /*   By: sklaas <sklaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:56:35 by sklaas            #+#    #+#             */
-/*   Updated: 2025/07/07 02:32:47 by sklaas           ###   ########.fr       */
+/*   Updated: 2025/07/07 05:36:18 by sklaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <stdbool.h>
+# include <limits.h>
 
 struct	s_philo;
 
