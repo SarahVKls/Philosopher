@@ -6,7 +6,7 @@
 /*   By: sklaas <sklaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 00:34:24 by sklaas            #+#    #+#             */
-/*   Updated: 2025/07/07 03:48:47 by sklaas           ###   ########.fr       */
+/*   Updated: 2025/07/07 21:47:12 by sklaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	init_data(t_data *data, char **argv, int argc)
 	data->time_to_die = ft_atol(argv[2]);
 	data->time_to_eat = ft_atol(argv[3]);
 	data->time_to_sleep = ft_atol(argv[4]);
+	data->time_to_think = (data->time_to_die - data->time_to_eat \
+		- data->time_to_sleep) * 0.9;
 	if (argc == 6)
 		data->nb_must_eat = ft_atol(argv[5]);
 	else
@@ -39,6 +41,7 @@ void	init_all(t_data *data, t_philo *philo, char **argv, int argc)
 		pthread_mutex_init(&data->forks[i], NULL);
 	pthread_mutex_init(&data->death_mutex, NULL);
 	pthread_mutex_init(&data->print_mutex, NULL);
+	pthread_mutex_init(&data->meals_eaten_mutex, NULL);
 	i = -1;
 	while (++i < data->nb_philo)
 	{
@@ -62,9 +65,9 @@ int	join_all_threads(t_data *data, t_philo *philo)
 	{
 		if (pthread_join(philo[i].thread, NULL) != 0)
 			return (printf("Error joining routine threads\n"), 1);
-		if (pthread_join(philo[i].monitor_thread, NULL) != 0)
-			return (printf("Error joining monitor threads\n"), 1);
 	}
+	if (pthread_join(data->monitor_thread, NULL) != 0)
+		return (printf("Error joining monitor threads\n"), 1);
 	return (0);
 }
 
@@ -78,8 +81,7 @@ void	*create_one_philo(t_philo *philo)
 
 void	*create_threads(t_data *data, t_philo *philo)
 {
-	int			i;
-	pthread_t	meal_monitor;
+	int	i;
 
 	if (data->nb_philo == 1)
 		return (create_one_philo(philo), NULL);
@@ -88,18 +90,11 @@ void	*create_threads(t_data *data, t_philo *philo)
 	{
 		if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]) != 0)
 			return (printf("Error creating routine threads\n"), NULL);
-		usleep(500);
-		if (pthread_create(&philo[i].monitor_thread,
-				NULL, monitor_death, &philo[i]) != 0)
-			return (printf("Error creating monitor threads\n"), NULL);
 	}
-	if (data->nb_must_eat > 0
-		&& pthread_create(&meal_monitor, NULL, monitor_meals, data) != 0)
+	if (pthread_create(&data->monitor_thread, NULL, &monitor, data) != 0)
 		return (printf("Error creating meal monitoring thread\n"), NULL);
 	i = -1;
 	if (join_all_threads(data, philo))
 		return (NULL);
-	if (data->nb_must_eat > 0)
-		pthread_join(meal_monitor, NULL);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: sklaas <sklaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:56:35 by sklaas            #+#    #+#             */
-/*   Updated: 2025/07/07 05:36:18 by sklaas           ###   ########.fr       */
+/*   Updated: 2025/07/07 21:07:19 by sklaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,14 @@ typedef struct s_data
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
+	int				time_to_think;
 	int				nb_must_eat;
 	long int		start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	meals_eaten_mutex;
+	pthread_t		monitor_thread;
 	bool			someone_died;
 	struct s_philo	*philo;
 }	t_data;
@@ -46,7 +49,6 @@ typedef struct s_philo
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	meal_mutex;
 	pthread_t		thread;
-	pthread_t		monitor_thread;
 	int				id;
 	long			time_last_meal;
 	int				meals_eaten;
@@ -56,17 +58,14 @@ typedef struct s_philo
 long		ft_atol(const char *str);
 int			ft_isdigit(int c);
 long int	get_time(void);
-void		ft_usleep(int duration, t_data *data);
+void		ft_usleep(long duration, t_data *data);
 void		print_action(t_philo *philo, char *msg);
 
 //Routine.c
 void		*routine(void *arg);
-void		*monitor_death(void *arg);
-void		*monitor_meals(void *arg);
 
 //Monitoring.c
-void		*monitor_death(void *arg);
-void		*monitor_meals(void *arg);
+void		*monitor(void *arg);
 
 //Parser.c
 int			check_args(char **argv);

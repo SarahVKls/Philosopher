@@ -6,7 +6,7 @@
 /*   By: sklaas <sklaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:52:22 by sklaas            #+#    #+#             */
-/*   Updated: 2025/07/07 02:32:32 by sklaas           ###   ########.fr       */
+/*   Updated: 2025/07/07 21:23:04 by sklaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ long int	get_time(void)
 	return (time);
 }
 
-void	ft_usleep(int duration, t_data *data)
+void	ft_usleep(long duration, t_data *data)
 {
 	long	start;
 	long	now;
@@ -82,13 +82,13 @@ void	print_action(t_philo *philo, char *msg)
 {
 	long	timestamp;
 
-	pthread_mutex_lock(&philo->data->print_mutex);
 	pthread_mutex_lock(&philo->data->death_mutex);
+	pthread_mutex_lock(&philo->data->print_mutex);
 	if (!philo->data->someone_died)
 	{
 		timestamp = get_time() - philo->data->start_time;
-		printf("%ld Philosopher %d %s\n", timestamp, philo->id, msg);
+		printf("%ld %d %s\n", timestamp, philo->id, msg);
 	}
-	pthread_mutex_unlock(&philo->data->death_mutex);
 	pthread_mutex_unlock(&philo->data->print_mutex);
+	pthread_mutex_unlock(&philo->data->death_mutex);
 }
